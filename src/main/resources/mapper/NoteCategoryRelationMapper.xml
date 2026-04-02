@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="redlib.backend.dao.NoteCategoryRelationMapper">
+
+  <resultMap id="BaseResultMap" type="redlib.backend.model.NoteCategoryRelation">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="note_id" jdbcType="BIGINT" property="noteId" />
+    <result column="category_id" jdbcType="BIGINT" property="categoryId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+
+  <!-- 批量插入 -->
+  <insert id="batchInsert" parameterType="java.util.List">
+    insert into note_category_relation (note_id, category_id, create_time)
+    values
+    <foreach collection="relations" item="item" separator=",">
+      (#{item.noteId,jdbcType=BIGINT}, #{item.categoryId,jdbcType=BIGINT}, #{item.createTime,jdbcType=TIMESTAMP})
+    </foreach>
+  </insert>
+
+  <!-- 根据笔记ID删除所有关联 -->
+  <delete id="deleteByNoteId">
+    delete from note_category_relation where note_id = #{noteId,jdbcType=BIGINT}
+  </delete>
+
+  <!-- 根据笔记ID查询分类ID列表 -->
+  <select id="selectCategoryIdsByNoteId" resultType="java.lang.Long">
+    select category_id from note_category_relation where note_id = #{noteId,jdbcType=BIGINT}
+  </select>
+
+  <!-- 批量查询笔记对应的分类ID -->
+  <select id="selectByNoteIds" resultMap="BaseResultMap">
+    select note_id, category_id from note_category_relation
+    where note_id in
+    <foreach collection="noteIds" item="noteId" open="(" separator="," close=")">
+      #{noteId,jdbcType=BIGINT}
+    </foreach>
+  </select>
+
+  <delete id="deleteByNoteIds">
+    delete from note_category_relation
+    where note_id in
+    <foreach collection="noteIds" item="noteId" open="(" separator="," close=")">
+      #{noteId,jdbcType=BIGINT}
+    </foreach>
+  </delete>
+
+</mapper>

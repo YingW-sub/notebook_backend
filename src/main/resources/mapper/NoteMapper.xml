@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="redlib.backend.dao.NoteMapper">
+  <resultMap id="BaseResultMap" type="redlib.backend.model.Note">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="summary" jdbcType="VARCHAR" property="summary" />
+    <result column="is_starred" jdbcType="BIT" property="isStarred" />
+    <result column="pinned" jdbcType="BIT" property="pinned" />
+    <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
+    <result column="deleted" jdbcType="BIT" property="deleted" />
+    <result column="delete_time" jdbcType="TIMESTAMP" property="deleteTime" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="redlib.backend.model.Note">
+    <result column="content" jdbcType="LONGVARCHAR" property="content" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, user_id, title, summary, is_starred, pinned, sort_order, deleted, delete_time, create_time,
+    update_time
+  </sql>
+  <sql id="Blob_Column_List">
+    content
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+    select <include refid="Base_Column_List" /> , <include refid="Blob_Column_List" /> from note
+    where id = #{id,jdbcType=BIGINT} </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from note
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="redlib.backend.model.Note" useGeneratedKeys="true"
+    keyProperty="id">
+    insert into note (id, user_id,
+    title, summary, is_starred, pinned, sort_order,
+    deleted, delete_time, create_time,
+    update_time, content)
+    values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT},
+    #{title,jdbcType=VARCHAR}, #{summary,jdbcType=VARCHAR}, #{isStarred,jdbcType=BIT},
+    #{pinned,jdbcType=BIT}, #{sortOrder,jdbcType=INTEGER},
+    #{deleted,jdbcType=BIT}, #{deleteTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP},
+    #{updateTime,jdbcType=TIMESTAMP}, #{content,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="redlib.backend.model.Note" useGeneratedKeys="true"
+    keyProperty="id"> insert into note <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="summary != null">
+        summary,
+      </if>
+      <if test="isStarred != null">
+        is_starred,
+      </if>
+      <if test="pinned != null">
+        pinned,
+      </if>
+      <if test="sortOrder != null">
+        sort_order,
+      </if>
+      <if test="deleted != null">
+        deleted,
+      </if>
+      <if test="deleteTime != null">
+        delete_time,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")"
+      suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="summary != null">
+        #{summary,jdbcType=VARCHAR},
+      </if>
+      <if test="isStarred != null">
+        #{isStarred,jdbcType=BIT},
+      </if>
+      <if test="pinned != null">
+        #{pinned,jdbcType=BIT},
+      </if>
+      <if test="sortOrder != null">
+        #{sortOrder,jdbcType=INTEGER},
+      </if>
+      <if test="deleted != null">
+        #{deleted,jdbcType=BIT},
+      </if>
+      <if test="deleteTime != null">
+        #{deleteTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="redlib.backend.model.Note"> update note <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="summary != null">
+        summary = #{summary,jdbcType=VARCHAR},
+      </if>
+      <if test="isStarred != null">
+        is_starred = #{isStarred,jdbcType=BIT},
+      </if>
+      <if test="pinned != null">
+        pinned = #{pinned,jdbcType=BIT},
+      </if>
+      <if test="sortOrder != null">
+        sort_order = #{sortOrder,jdbcType=INTEGER},
+      </if>
+      <if test="deleted != null">
+        deleted = #{deleted,jdbcType=BIT},
+      </if>
+      <if test="deleteTime != null">
+        delete_time = #{deleteTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </set> where id =
+    #{id,jdbcType=BIGINT} </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="redlib.backend.model.Note">
+    update note
+    set user_id = #{userId,jdbcType=BIGINT},
+    title = #{title,jdbcType=VARCHAR},
+    summary = #{summary,jdbcType=VARCHAR},
+    is_starred = #{isStarred,jdbcType=BIT},
+    pinned = #{pinned,jdbcType=BIT},
+    sort_order = #{sortOrder,jdbcType=INTEGER},
+    deleted = #{deleted,jdbcType=BIT},
+    delete_time = #{deleteTime,jdbcType=TIMESTAMP},
+    create_time = #{createTime,jdbcType=TIMESTAMP},
+    update_time = #{updateTime,jdbcType=TIMESTAMP},
+    content = #{content,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="redlib.backend.model.Note">
+    update note
+    set user_id = #{userId,jdbcType=BIGINT},
+    title = #{title,jdbcType=VARCHAR},
+    summary = #{summary,jdbcType=VARCHAR},
+    is_starred = #{isStarred,jdbcType=BIT},
+    pinned = #{pinned,jdbcType=BIT},
+    sort_order = #{sortOrder,jdbcType=INTEGER},
+    deleted = #{deleted,jdbcType=BIT},
+    delete_time = #{deleteTime,jdbcType=TIMESTAMP},
+    create_time = #{createTime,jdbcType=TIMESTAMP},
+    update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <!-- 分页查询笔记列表 -->
+  <select id="list" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List" />
+    from note
+    where 1=1
+    <!-- 管理员（isRoot=true）可查看全站笔记；普通用户仅查看本人笔记 -->
+    <if test="queryDTO.isRoot == null or queryDTO.isRoot == false">
+      and user_id = #{queryDTO.userId}
+    </if>
+    <!-- 管理员列表：排除 user_id 在 admin 中已不存在的孤儿笔记（删账户后遗留数据） -->
+    <if test="queryDTO.isRoot == true">
+      and exists (select 1 from admin a where a.id = note.user_id)
+    </if>
+    <if test="queryDTO.isDeleted != null">
+      and deleted = #{queryDTO.isDeleted}
+    </if>
+    <if test="queryDTO.isDeleted == null">
+      and deleted = 0
+    </if>
+    <!-- 回收站：仅展示仍在 15 天保留期内的记录 -->
+    <if test="queryDTO.isDeleted != null and queryDTO.isDeleted == true">
+      and delete_time &gt;= DATE_SUB(NOW(), INTERVAL 15 DAY)
+    </if>
+    <if test="queryDTO.categoryId != null">
+      and id in (
+      select note_id from note_category_relation
+      where category_id = #{queryDTO.categoryId}
+      )
+    </if>
+    <if test="queryDTO.onlyStarred != null">
+      and is_starred = #{queryDTO.onlyStarred}
+    </if>
+    <if test="queryDTO.title != null and queryDTO.title != ''">
+      and title like concat('%', #{queryDTO.title}, '%')
+    </if>
+    <if test="queryDTO.ownerUserCode != null and queryDTO.ownerUserCode != ''">
+      and user_id in (
+      select id from admin
+      where user_code like concat('%', #{queryDTO.ownerUserCode}, '%')
+      or name like concat('%', #{queryDTO.ownerUserCode}, '%')
+      <if test="queryDTO.ownerAdminId != null">
+      or id = #{queryDTO.ownerAdminId}
+      </if>
+      )
+    </if>
+    order by <choose>
+      <when test="queryDTO.isDeleted == true">delete_time desc</when>
+      <when test="queryDTO.isRoot == true">update_time desc</when>
+      <otherwise>pinned desc, sort_order asc, update_time desc</otherwise>
+    </choose>
+    limit #{offset}, #{limit}
+  </select>
+
+  <!-- 统计笔记总数 -->
+  <select id="count" resultType="java.lang.Integer">
+    select count(*)
+    from note
+    where 1=1
+    <!-- 管理员（isRoot=true）可查看全站笔记；普通用户仅本人 -->
+    <if test="queryDTO.isRoot == null or queryDTO.isRoot == false">
+      and user_id = #{queryDTO.userId}
+    </if>
+    <if test="queryDTO.isRoot == true">
+      and exists (select 1 from admin a where a.id = note.user_id)
+    </if>
+    <if test="queryDTO.isDeleted != null">
+      and deleted = #{queryDTO.isDeleted}
+    </if>
+    <if test="queryDTO.isDeleted == null">
+      and deleted = 0
+    </if>
+    <if test="queryDTO.isDeleted != null and queryDTO.isDeleted == true">
+      and delete_time &gt;= DATE_SUB(NOW(), INTERVAL 15 DAY)
+    </if>
+    <if test="queryDTO.categoryId != null">
+      and id in (
+      select note_id from note_category_relation
+      where category_id = #{queryDTO.categoryId}
+      )
+    </if>
+    <if test="queryDTO.onlyStarred != null">
+      and is_starred = #{queryDTO.onlyStarred}
+    </if>
+    <if test="queryDTO.title != null and queryDTO.title != ''">
+      and title like concat('%', #{queryDTO.title}, '%')
+    </if>
+    <if test="queryDTO.ownerUserCode != null and queryDTO.ownerUserCode != ''">
+      and user_id in (
+      select id from admin
+      where user_code like concat('%', #{queryDTO.ownerUserCode}, '%')
+      or name like concat('%', #{queryDTO.ownerUserCode}, '%')
+      <if test="queryDTO.ownerAdminId != null">
+      or id = #{queryDTO.ownerAdminId}
+      </if>
+      )
+    </if>
+  </select>
+
+  <!-- 统计各分类的笔记数量（用于ECharts图表） -->
+  <select id="countByCategory" resultType="map">
+    select c.category_name as categoryName, count(ncr.note_id) as noteCount
+    from category c
+    left join note_category_relation ncr on c.id = ncr.category_id
+    left join note n on ncr.note_id = n.id and n.deleted = 0 and n.user_id = #{userId}
+    where c.user_id = #{userId} and c.deleted = 0
+    group by c.id, c.category_name
+  </select>
+
+  <!-- 查询超过指定天数且已删除的笔记（用于定时清理） -->
+  <select id="selectDeletedNotesOlderThanDays" resultMap="BaseResultMap"> select <include
+      refid="Base_Column_List" /> from note where deleted = 1 and delete_time &lt; DATE_SUB(NOW(),
+    INTERVAL #{days} DAY) </select>
+
+  <!-- 批量查询笔记的分类ID列表（Map: noteId -> List of categoryId） -->
+  <select id="selectNoteCategories" resultType="java.util.Map"> select note_id as noteId,
+    category_id as categoryId from note_category_relation where note_id in <foreach
+      collection="noteIds" item="noteId" open="(" separator="," close=")">
+      #{noteId}
+    </foreach>
+  </select>
+
+  <!-- 查询指定用户的所有笔记 ID（级联删除用户用） -->
+  <select id="selectIdsByUserIds" resultType="java.lang.Long">
+    select id from note
+    where user_id in
+    <foreach collection="userIds" item="uid" open="(" separator="," close=")">
+      #{uid,jdbcType=INTEGER}
+    </foreach>
+  </select>
+
+  <!-- 按用户 ID 物理删除笔记（删除 admin 时级联清理，避免孤儿数据） -->
+  <delete id="deleteByUserIds">
+    delete from note
+    where user_id in
+    <foreach collection="userIds" item="uid" open="(" separator="," close=")">
+      #{uid,jdbcType=INTEGER}
+    </foreach>
+  </delete>
+
+  <!-- 各用户笔记数量排名 Top N（管理员系统活跃度统计） -->
+  <select id="countNotesByUser" resultType="java.util.Map">
+    select a.name as userName, a.user_code as userCode, count(n.id) as noteCount
+    from admin a
+    left join note n on n.user_id = a.id and n.deleted = 0
+    where a.user_code != 'root'
+    group by a.id, a.name, a.user_code
+    order by noteCount desc
+    limit #{topN,jdbcType=INTEGER}
+  </select>
+
+  <!-- 全站回收站笔记条数（管理员数据统计） -->
+  <select id="countGlobalDeletedNotes" resultType="java.lang.Integer">
+    select count(*)
+    from note n
+    where n.deleted = 1
+      and exists (select 1 from admin a where a.id = n.user_id)
+  </select>
+
+  <!-- 全站有效笔记总数（未删除且 admin 存在） -->
+  <select id="countGlobalActiveNotes" resultType="java.lang.Integer">
+    select count(*)
+    from note n
+    where n.deleted = 0
+      and exists (select 1 from admin a where a.id = n.user_id)
+  </select>
+
+  <select id="selectMaxSortOrderByUser" resultType="java.lang.Integer">
+    select coalesce(max(sort_order), -1) from note
+    where user_id = #{userId,jdbcType=BIGINT} and deleted = 0
+  </select>
+
+  <select id="selectIdsByUserNonDeleted" resultType="java.lang.Long">
+    select id from note
+    where user_id = #{userId,jdbcType=BIGINT} and deleted = 0
+  </select>
+
+</mapper>

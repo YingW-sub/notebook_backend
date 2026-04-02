@@ -1,0 +1,14 @@
+$kind: http-request
+name: New Request
+url: http://localhost:9311/api/note/exportNote?id=13
+method: GET
+headers:
+  Cookie: accessToken=49c7d7c3d8054d18be99acbe8d19dca6
+queryParams:
+  id: "13"
+body:
+  type: urlencoded
+  content:
+    userId: postman_test
+    password: "1"
+order: 1774008035147

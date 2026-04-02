@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="redlib.backend.dao.CategoryMapper">
+  <resultMap id="BaseResultMap" type="redlib.backend.model.Category">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="category_name" jdbcType="VARCHAR" property="categoryName" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="deleted" jdbcType="BIT" property="deleted" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, user_id, category_name, create_time, update_time, deleted
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap"> select <include
+      refid="Base_Column_List" /> from category where id = #{id,jdbcType=BIGINT} </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from category
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="redlib.backend.model.Category" useGeneratedKeys="true"
+    keyProperty="id">
+    insert into category (id, user_id, category_name,
+    create_time, update_time, deleted
+    )
+    values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{categoryName,jdbcType=VARCHAR},
+    #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{deleted,jdbcType=BIT}
+    )
+  </insert>
+  <insert id="insertSelective" parameterType="redlib.backend.model.Category"> insert into category <trim
+      prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="categoryName != null">
+        category_name,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="deleted != null">
+        deleted,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")"
+      suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="categoryName != null">
+        #{categoryName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleted != null">
+        #{deleted,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="redlib.backend.model.Category"> update
+    category <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="categoryName != null">
+        category_name = #{categoryName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleted != null">
+        deleted = #{deleted,jdbcType=BIT},
+      </if>
+    </set> where id =
+    #{id,jdbcType=BIGINT} </update>
+  <update id="updateByPrimaryKey" parameterType="redlib.backend.model.Category">
+    update category
+    set user_id = #{userId,jdbcType=BIGINT},
+    category_name = #{categoryName,jdbcType=VARCHAR},
+    create_time = #{createTime,jdbcType=TIMESTAMP},
+    update_time = #{updateTime,jdbcType=TIMESTAMP},
+    deleted = #{deleted,jdbcType=BIT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <!-- 根据用户ID查询分类列表（仅查询未删除的） -->
+  <select id="selectByUserId" parameterType="java.lang.Long" resultMap="BaseResultMap"> select <include
+      refid="Base_Column_List" /> from category where user_id = #{userId,jdbcType=BIGINT} and
+    deleted = 0 order by create_time desc </select>
+
+  <!-- 根据分类ID列表查询未被软删除的分类 -->
+  <select id="selectActiveByIds" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List" />
+    from category
+    where deleted = 0
+      and id in
+      <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
+        #{item}
+      </foreach>
+  </select>
+
+  <!-- 根据用户ID和分类名称查询（仅查询未删除的），用于分类名称防重 -->
+  <select id="selectByUserIdAndName" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List" />
+    from category
+    where user_id = #{userId,jdbcType=BIGINT}
+      and category_name = #{categoryName,jdbcType=VARCHAR}
+      and deleted = 0
+    limit 1
+  </select>
+
+  <delete id="deleteByUserIds">
+    delete from category
+    where user_id in
+    <foreach collection="userIds" item="uid" open="(" separator="," close=")">
+      #{uid,jdbcType=INTEGER}
+    </foreach>
+  </delete>
+
+</mapper>

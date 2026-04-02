@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="redlib.backend.dao.ChatMessageMapper">
+  <resultMap id="BaseResultMap" type="redlib.backend.model.ChatMessage">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="session_id" jdbcType="VARCHAR" property="sessionId" />
+    <result column="role" jdbcType="VARCHAR" property="role" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="redlib.backend.model.ChatMessage">
+    <result column="message_content" jdbcType="LONGVARCHAR" property="messageContent" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, user_id, session_id, role, create_time
+  </sql>
+  <sql id="Blob_Column_List">
+    message_content
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from chat_message
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from chat_message
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="redlib.backend.model.ChatMessage">
+    insert into chat_message (id, user_id, session_id, 
+      role, create_time, message_content
+      )
+    values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{sessionId,jdbcType=VARCHAR}, 
+      #{role,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{messageContent,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="redlib.backend.model.ChatMessage">
+    insert into chat_message
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="sessionId != null">
+        session_id,
+      </if>
+      <if test="role != null">
+        role,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="messageContent != null">
+        message_content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="sessionId != null">
+        #{sessionId,jdbcType=VARCHAR},
+      </if>
+      <if test="role != null">
+        #{role,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="messageContent != null">
+        #{messageContent,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="redlib.backend.model.ChatMessage">
+    update chat_message
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="sessionId != null">
+        session_id = #{sessionId,jdbcType=VARCHAR},
+      </if>
+      <if test="role != null">
+        role = #{role,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="messageContent != null">
+        message_content = #{messageContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="redlib.backend.model.ChatMessage">
+    update chat_message
+    set user_id = #{userId,jdbcType=BIGINT},
+      session_id = #{sessionId,jdbcType=VARCHAR},
+      role = #{role,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      message_content = #{messageContent,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="redlib.backend.model.ChatMessage">
+    update chat_message
+    set user_id = #{userId,jdbcType=BIGINT},
+      session_id = #{sessionId,jdbcType=VARCHAR},
+      role = #{role,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectBySessionIdOrderByTime" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from chat_message
+    where user_id = #{userId,jdbcType=BIGINT}
+      and session_id = #{sessionId,jdbcType=VARCHAR}
+    order by create_time desc
+    limit #{limit,jdbcType=INTEGER}
+  </select>
+  <select id="selectAllBySessionId" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from chat_message
+    where user_id = #{userId,jdbcType=BIGINT}
+      and session_id = #{sessionId,jdbcType=VARCHAR}
+    order by create_time asc
+  </select>
+
+  <delete id="deleteByUserIds">
+    delete from chat_message
+    where user_id in
+    <foreach collection="userIds" item="uid" open="(" separator="," close=")">
+      #{uid,jdbcType=INTEGER}
+    </foreach>
+  </delete>
+</mapper>
