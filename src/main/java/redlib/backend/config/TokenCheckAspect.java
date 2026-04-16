@@ -34,7 +34,7 @@ public class TokenCheckAspect {
      * 注意：admin模块需要权限检查，只有root能管理用户
      */
     private static final Set<String> BUSINESS_MODULES =
-            Set.of("note", "category", "notification");
+            Set.of("note", "category");
 
     @Before("execution(* redlib.backend.controller..*Controller.*(..))")
     public void processLog(JoinPoint joinPoint) throws Exception {

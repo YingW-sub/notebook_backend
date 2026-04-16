@@ -36,7 +36,7 @@ CREATE TABLE note (
     pinned          TINYINT(1)      NOT NULL DEFAULT 0 COMMENT '是否置顶（0-否，1-是）',
     sort_order      INT             NOT NULL DEFAULT 0 COMMENT '同用户内排序，越小越靠前',
     deleted         TINYINT(1)      NOT NULL DEFAULT 0 COMMENT '删除标记（0-未删除，1-已删除-进入回收站）',
-    delete_time     DATETIME        NULL COMMENT '删除时间（用于30天自动清理）',
+    delete_time     DATETIME        NULL COMMENT '删除时间（用于15天自动清理）',
     create_time     DATETIME        NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     update_time     DATETIME        NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     PRIMARY KEY (id),
