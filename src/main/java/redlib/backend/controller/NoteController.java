@@ -33,85 +33,96 @@ public class NoteController {
 
     @Autowired
     private NoteService noteService;
-
+    //获取笔记列表
     @PostMapping("listNote")
     @Privilege("page")
     public Page<NoteVO> listNote(@RequestBody NoteQueryDTO queryDTO) {
         return noteService.listByPage(queryDTO);
     }
 
+    //添加笔记
     @PostMapping("addNote")
     @Privilege("add")
     public Long addNote(@RequestBody NoteDTO noteDTO) {
         return noteService.addNote(noteDTO);
     }
 
+    //获取笔记详情
     @GetMapping("getNote")
     @Privilege("page")
     public NoteDTO getNote(Long id) {
         return noteService.getById(id);
     }
-
+    //更新笔记
     @PostMapping("updateNote")
     @Privilege("update")
     public Long updateNote(@RequestBody NoteDTO noteDTO) {
         return noteService.updateNote(noteDTO);
     }
-
+    //收藏笔记
     @PostMapping("toggleFavorite")
     @Privilege("update")
     public void toggleFavorite(@RequestBody JsonIdRequest body) {
         noteService.toggleFavorite(body.getId());
     }
 
+    //置顶笔记
     @PostMapping("togglePin")
     @Privilege("update")
     public void togglePin(@RequestBody JsonIdRequest body) {
         noteService.togglePin(body.getId());
     }
 
+    //重新排序笔记
     @PostMapping("reorderNotes")
     @Privilege("update")
     public void reorderNotes(@RequestBody ReorderNotesDTO body) {
         noteService.reorderNotes(body);
     }
 
+    //导入文档
     @PostMapping(value = "importDocument", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Privilege("add")
     public NoteImportResultDTO importDocument(@RequestPart("file") MultipartFile file) {
         return noteService.importDocument(file);
     }
 
+    //删除笔记
     @PostMapping("deleteNote")
     @Privilege("delete")
     public void deleteNote(@RequestBody JsonIdRequest body) {
         noteService.deleteNote(body.getId());
     }
 
+   
     @PostMapping("listDeletedNotes")
     @Privilege("page")
     public Page<NoteVO> listDeletedNotes(@RequestBody NoteQueryDTO queryDTO) {
         return noteService.listDeletedNotes(queryDTO);
     }
 
+    //恢复笔记
     @PostMapping("restoreNote")
     @Privilege("update")
     public void restoreNote(@RequestBody JsonIdRequest body) {
         noteService.restoreNote(body.getId());
     }
 
+    //永久删除笔记
     @PostMapping("permanentDeleteNote")
     @Privilege("delete")
     public void permanentDeleteNote(@RequestBody JsonIdRequest body) {
         noteService.permanentDeleteNote(body.getId());
     }
 
+    //获取分类统计
     @GetMapping("getCategoryStatistics")
     @Privilege("page")
     public List<Map<String, Object>> getCategoryStatistics() {
         return noteService.getCategoryStatistics();
     }
 
+    //设置内容disposition响应头
     private void setContentDisposition(HttpServletResponse response, long noteId, String utf8FileName) {
         int dot = utf8FileName.lastIndexOf('.');
         String ext = dot >= 0 ? utf8FileName.substring(dot) : "";
@@ -120,7 +131,7 @@ public class NoteController {
         response.setHeader(HttpHeaders.CONTENT_DISPOSITION,
                 "attachment; filename=\"" + asciiFallback + "\"; filename*=UTF-8''" + encoded);
     }
-
+//导出笔记（.md .html）
     @GetMapping("exportNote")
     @Privilege("page")
     public void exportNote(Long id, HttpServletResponse response) throws IOException {
@@ -165,7 +176,7 @@ public class NoteController {
         if (s == null) return "";
         return s.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace("\"", "&quot;");
     }
-
+    //导出Word文档
     @GetMapping("exportWord")
     @Privilege("page")
     public void exportWord(Long id, HttpServletResponse response) throws IOException {
@@ -199,6 +210,7 @@ public class NoteController {
         response.getOutputStream().flush();
     }
 
+    //导出PDF文档
     @GetMapping("exportPdf")
     @Privilege("page")
     public void exportPdf(Long id, HttpServletResponse response) throws IOException {

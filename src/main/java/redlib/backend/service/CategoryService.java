@@ -7,7 +7,6 @@ import java.util.List;
 /**
  * 分类模块服务接口
  *
- * @author 18622
  * @date 2026-03-17
  */
 public interface CategoryService {

@@ -11,15 +11,8 @@ import org.springframework.context.annotation.Primary;
 
 /**
  * AI大模型多实例配置
- * <p>
  * 从 application.properties 读取三个模型的 url、key、model 配置，
- * 手动实例化并注册三个不同的 OpenAiChatModel Bean。
- * </p>
- * <p>
- * 可用模型：qwen（阿里云通义千问）、deepseek、kimi（Moonshot）。
- * </p>
- *
- * @author 18622
+ * 可用模型：qwen（阿里云通义千问）、deepseek、kimi
  * @date 2026-03-22
  */
 @Configuration

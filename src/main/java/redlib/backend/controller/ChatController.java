@@ -10,9 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 聊天控制器
- *
- * @author 18622
+ * AI聊天对话
  * @date 2026-03-20
  */
 @RestController
@@ -25,7 +23,6 @@ public class ChatController {
     /**
      * 发送消息
      *
-     * @param request 请求体，message 和 sessionId 为必填，model 为可选（qwen / deepseek / kimi）
      * @return AI的回复
      */
     @PostMapping("/send")

@@ -16,9 +16,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- * AI功能控制器
- *
- * @author wyyy
+ * AI prompt调用
  * @date 2026-03-20
  */
 @RestController
@@ -37,7 +35,6 @@ public class AiController {
     /**
      * AI生成摘要
      *
-     * @param request 请求体，content 为必填，model 为可选（qwen / deepseek / kimi）
      * @return AI生成的摘要
      */
     @PostMapping("/summary")
@@ -52,7 +49,6 @@ public class AiController {
     /**
      * AI润色文本
      *
-     * @param request 请求体，content 为必填，model 为可选（qwen / deepseek / kimi）
      * @return 润色后的文本
      */
     @PostMapping("/polish")
@@ -67,7 +63,6 @@ public class AiController {
     /**
      * AI智能分类
      *
-     * @param request 请求体，content 为必填，model 为可选（qwen / deepseek / kimi）
      * @return 分类名称
      */
     @PostMapping("/categorize")
@@ -91,7 +86,7 @@ public class AiController {
     }
 
     /**
-     * 可选的大模型（与后端三套 API Key 一一对应：通义千问 / DeepSeek / Kimi）
+     * 可选的大模型（通义千问 / DeepSeek / Kimi）
      */
     @GetMapping("/modelOptions")
     @Privilege

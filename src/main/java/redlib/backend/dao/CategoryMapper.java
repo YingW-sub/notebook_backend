@@ -19,7 +19,7 @@ public interface CategoryMapper {
     int updateByPrimaryKey(Category record);
 
     /**
-     * 根据用户ID查询分类列表（仅查询未删除的）
+     * 根据用户ID查询分类列表
      *
      * @param userId 用户ID
      * @return 分类列表
@@ -30,12 +30,12 @@ public interface CategoryMapper {
      * 根据分类ID列表查询未被软删除的分类
      *
      * @param ids 分类ID列表
-     * @return 分类列表（仅包含 deleted=0 的记录）
+     * @return 分类列表
      */
     List<Category> selectActiveByIds(@Param("ids") List<Long> ids);
 
     /**
-     * 根据用户ID和分类名称查询（仅查询未删除的），用于分类名称防重校验
+     * 根据用户ID和分类名称查询，用于分类名称防重校验
      *
      * @param userId       用户ID
      * @param categoryName 分类名称

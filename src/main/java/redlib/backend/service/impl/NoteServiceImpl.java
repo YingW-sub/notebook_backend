@@ -99,7 +99,7 @@ public class NoteServiceImpl implements NoteService {
     private boolean canReadNote(Note note, long userId) {
         return isOwner(note, userId);
     }
-
+    //获取笔记列表
     @Override
     public Page<NoteVO> listByPage(NoteQueryDTO queryDTO) {
         if (queryDTO == null) {
@@ -161,11 +161,11 @@ public class NoteServiceImpl implements NoteService {
 
         return new Page<>(pageUtils.getCurrent(), pageUtils.getPageSize(), pageUtils.getTotal(), voList);
     }
-
+    //添加笔记
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Long addNote(NoteDTO noteDTO) {
-        assertNotRoot();
+        assertNotRoot();  //对root不放行
         Long userId = token().getUserId().longValue();
 
         Assert.hasText(noteDTO.getTitle(), "笔记标题不能为空");
@@ -192,7 +192,7 @@ public class NoteServiceImpl implements NoteService {
 
     @Override
     public NoteDTO getById(Long id) {
-        assertNotRoot();
+        assertNotRoot();//对root不放行
         long userId = token().getUserId().longValue();
 
         Assert.notNull(id, "笔记ID不能为空");
@@ -212,11 +212,11 @@ public class NoteServiceImpl implements NoteService {
 
         return dto;
     }
-
+    //更新笔记
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Long updateNote(NoteDTO noteDTO) {
-        assertNotRoot();
+        assertNotRoot();//对root不放行
         long userId = token().getUserId().longValue();
 
         Assert.notNull(noteDTO.getId(), "笔记ID不能为空");
@@ -257,10 +257,10 @@ public class NoteServiceImpl implements NoteService {
 
         return note.getId();
     }
-
+    //收藏笔记
     @Override
     public void toggleFavorite(Long id) {
-        assertNotRoot();
+        assertNotRoot();//对root不放行
         Long userId = token().getUserId().longValue();
 
         Assert.notNull(id, "笔记ID不能为空");
@@ -275,6 +275,7 @@ public class NoteServiceImpl implements NoteService {
         noteMapper.updateByPrimaryKeySelective(note);
     }
 
+    //置顶笔记
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void togglePin(Long id) {
@@ -292,11 +293,11 @@ public class NoteServiceImpl implements NoteService {
         note.setUpdateTime(new Date());
         noteMapper.updateByPrimaryKeySelective(note);
     }
-
+    //重新排序
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void reorderNotes(ReorderNotesDTO body) {
-        assertNotRoot();
+        assertNotRoot();//对root不放行
         Long userId = token().getUserId().longValue();
 
         Assert.notNull(body, "参数不能为空");
@@ -332,10 +333,10 @@ public class NoteServiceImpl implements NoteService {
             noteMapper.updateByPrimaryKeySelective(u);
         }
     }
-
+    //导入文档
     @Override
     public NoteImportResultDTO importDocument(MultipartFile file) {
-        assertNotRoot();
+        assertNotRoot();//对root不放行
         Assert.notNull(file, "请选择文件");
         Assert.isTrue(!file.isEmpty(), "文件为空");
         Assert.isTrue(file.getSize() <= NOTE_IMPORT_MAX_BYTES, "文件过大，请上传不超过 15MB 的文档");
@@ -368,7 +369,7 @@ public class NoteServiceImpl implements NoteService {
         dto.setSourceType(ext);
         return dto;
     }
-
+    //生成导入标题
     private static String suggestImportTitle(String filename, String plain) {
         if (StringUtils.hasText(filename)) {
             String base = filename.trim();
@@ -383,7 +384,7 @@ public class NoteServiceImpl implements NoteService {
         String first = plain.lines().filter(StringUtils::hasText).findFirst().orElse("导入的文档");
         return first.length() > 200 ? first.substring(0, 200) : first;
     }
-
+    //读取Txt文档
     private static String readTxt(InputStream in) throws IOException {
         byte[] bytes = in.readAllBytes();
         if (bytes.length >= 3
@@ -394,7 +395,7 @@ public class NoteServiceImpl implements NoteService {
         }
         return new String(bytes, StandardCharsets.UTF_8);
     }
-
+    //读取Docx文档 使用Apache POI
     private static String readDocx(InputStream in) throws IOException {
         StringBuilder sb = new StringBuilder();
         try (XWPFDocument doc = new XWPFDocument(in)) {
@@ -416,14 +417,14 @@ public class NoteServiceImpl implements NoteService {
         }
         return sb.toString();
     }
-
+    //读取Doc文档 使用Apache POI
     private static String readDoc(InputStream in) throws IOException {
         try (HWPFDocument doc = new HWPFDocument(in)) {
             WordExtractor ex = new WordExtractor(doc);
             return ex.getText();
         }
     }
-
+    //读取PDF文档 使用iText
     private static String readPdf(InputStream in) throws IOException {
         byte[] pdfBytes = in.readAllBytes();
         PdfReader reader = new PdfReader(pdfBytes);
@@ -442,10 +443,10 @@ public class NoteServiceImpl implements NoteService {
             reader.close();
         }
     }
-
+    //删除笔记
     @Override
     public void deleteNote(Long id) {
-        assertNotRoot();
+        assertNotRoot();//对root不放行
         Long userId = token().getUserId().longValue();
 
         Assert.notNull(id, "笔记ID不能为空");
@@ -459,10 +460,10 @@ public class NoteServiceImpl implements NoteService {
         note.setUpdateTime(new Date());
         noteMapper.updateByPrimaryKeySelective(note);
     }
-
+    //获取回收站笔记列表
     @Override
     public Page<NoteVO> listDeletedNotes(NoteQueryDTO queryDTO) {
-        assertNotRoot();
+        assertNotRoot();//对root不放行
         Long userId = token().getUserId().longValue();
 
         if (queryDTO == null) {
@@ -486,11 +487,11 @@ public class NoteServiceImpl implements NoteService {
 
         return new Page<>(pageUtils.getCurrent(), pageUtils.getPageSize(), pageUtils.getTotal(), voList);
     }
-
+    //恢复笔记
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void restoreNote(Long id) {
-        assertNotRoot();
+        assertNotRoot();//对root不放行
         Long userId = token().getUserId().longValue();
 
         Assert.notNull(id, "笔记ID不能为空");
@@ -511,11 +512,11 @@ public class NoteServiceImpl implements NoteService {
         note.setUpdateTime(new Date());
         noteMapper.updateByPrimaryKeySelective(note);
     }
-
+    //永久删除笔记
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void permanentDeleteNote(Long id) {
-        assertNotRoot();
+        assertNotRoot();//对root不放行              
         Long userId = token().getUserId().longValue();
 
         Assert.notNull(id, "笔记ID不能为空");
@@ -528,13 +529,13 @@ public class NoteServiceImpl implements NoteService {
         relationMapper.deleteByNoteId(id);
         noteMapper.deleteByPrimaryKey(id);
     }
-
+    //获取分类统计
     @Override
     public List<Map<String, Object>> getCategoryStatistics() {
         Long userId = token().getUserId().longValue();
         return noteMapper.countByCategory(userId);
     }
-
+    
     private NoteVO convertToVO(Note note, Map<Long, Admin> ownersByUserId) {
         NoteVO vo = new NoteVO();
         vo.setId(note.getId());
@@ -579,7 +580,7 @@ public class NoteServiceImpl implements NoteService {
     }
 
     /**
-     * 先清空该笔记的旧关联，再写入（去重），避免 uk_note_category 冲突及库中孤儿行。
+     * 先清空该笔记的旧关联，再写入
      */
     private void replaceNoteCategories(Long noteId, List<Long> categoryIds) {
         relationMapper.deleteByNoteId(noteId);
@@ -631,11 +632,11 @@ public class NoteServiceImpl implements NoteService {
         }
         return out;
     }
-
+//导出Word文档
     @Override
     public void exportWord(Long id, OutputStream os) {
         NoteDTO note = this.getById(id);
-
+        // 标题：居中、18号、加粗
         try (XWPFDocument document = new XWPFDocument()) {
             if (note.getTitle() != null && !note.getTitle().isBlank()) {
                 XWPFParagraph titlePara = document.createParagraph();
@@ -645,7 +646,7 @@ public class NoteServiceImpl implements NoteService {
                 titleRun.setBold(true);
                 titleRun.setFontSize(18);
             }
-
+            // 摘要：斜体、12号
             if (note.getSummary() != null && !note.getSummary().isBlank()) {
                 XWPFParagraph summaryPara = document.createParagraph();
                 XWPFRun summaryRun = summaryPara.createRun();
@@ -654,8 +655,9 @@ public class NoteServiceImpl implements NoteService {
                 summaryRun.setFontSize(12);
                 document.createParagraph();
             }
-
+            
             if (note.getContent() != null && !note.getContent().isBlank()) {
+                // 正文：先 strip HTML，再写入
                 XWPFParagraph contentPara = document.createParagraph();
                 XWPFRun contentRun = contentPara.createRun();
                 contentRun.setText(htmlToPlainText(note.getContent()));
@@ -665,6 +667,7 @@ public class NoteServiceImpl implements NoteService {
             List<String> annotations = extractAnnotationBodies(note.getContent());
             if (!annotations.isEmpty()) {
                 document.createParagraph();
+                // 批注附录
                 XWPFParagraph annTitlePara = document.createParagraph();
                 XWPFRun annTitleRun = annTitlePara.createRun();
                 annTitleRun.setText("附录：批注列表");
@@ -691,7 +694,7 @@ public class NoteServiceImpl implements NoteService {
             throw new RuntimeException("导出 Word 文档失败: " + e.getMessage(), e);
         }
     }
-
+//导出PDF文档
     private BaseFont resolveChineseBaseFont() throws IOException, DocumentException {
         String[][] candidates = {
                 {"C:/Windows/Fonts/msyh.ttc,0"},
@@ -733,6 +736,7 @@ public class NoteServiceImpl implements NoteService {
             document.open();
 
             if (note.getTitle() != null && !note.getTitle().isBlank()) {
+                // 标题：居中、18号、加粗
                 Paragraph titlePara = new Paragraph(note.getTitle(), titleFont);
                 titlePara.setAlignment(Paragraph.ALIGN_CENTER);
                 titlePara.setSpacingAfter(10f);
