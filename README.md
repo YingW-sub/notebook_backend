@@ -2,7 +2,7 @@
 ### 介绍
 山东大学崇新学堂软件实训代码框架
 后端：Springboot 3+ , jdk21, Mybatis, openAPI 3 ,SpringAi 1.1.3
-#### My teammate: Qian Zhuyu @HHHhhhhh   Lv Sijie @lv1-sys
+#### My teammate: Qian Zhuyu [Qian Zhuyu](https://github.com/xk9b85kzr7-debug)   Lv Sijie [Lv Sijie](https://github.com/lv1-sys)
 ### 📚个人笔记本 (B/S)
 
 这是一个基于 Java Spring Boot 开发的现代化在线笔记系统后端服务。项目提供了完善的笔记管理、分类组织、用户鉴权以及 AI 智能辅助功能，为前端（如 React）提供稳定、高效的 RESTful API 接口。
