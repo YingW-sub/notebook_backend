@@ -1,14 +1,13 @@
-<img width="2025" height="1108" alt="shuju" src="https://github.com/user-attachments/assets/86458ad6-fef4-4c9b-b117-aa20b9ea6466" /># web-backend
 
 ### 介绍
 山东大学崇新学堂软件实训代码框架
 后端：Springboot 3+ , jdk21, Mybatis, openAPI 3 ,SpringAi 1.1.3
-
+### My teammate: 
 ### 📚个人笔记本 (B/S)
 
 这是一个基于 Java Spring Boot 开发的现代化在线笔记系统后端服务。项目提供了完善的笔记管理、分类组织、用户鉴权以及 AI 智能辅助功能，为前端（如 React）提供稳定、高效的 RESTful API 接口。
 
-<img width="1200" height="610" alt="welcom" src="https://github.com/user-attachments/assets/74fd448a-052f-44f5-9f3b-20fe664ad0cb" />
+<img width="1100" height="610" alt="welcom" src="https://github.com/user-attachments/assets/74fd448a-052f-44f5-9f3b-20fe664ad0cb" />
 
 
 #### 🛡️ 模块一：用户认证与个人数字空间
@@ -60,5 +59,5 @@
 
 - 无缝融合：左侧写代码/记公式，右侧询问：“这段代码为什么报空指针？”或“帮我解释一下傅里叶变换”。获取答案后一键复制回左侧笔记。
 
-  <img width="300" height="510" alt="ai" src="https://github.com/user-attachments/assets/7a0650e3-79ba-4d04-b0a7-e56e03a660b2" />
+  <img width="330" height="510" alt="ai" src="https://github.com/user-attachments/assets/7a0650e3-79ba-4d04-b0a7-e56e03a660b2" />
 
