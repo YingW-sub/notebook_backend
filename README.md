@@ -2,7 +2,7 @@
 ### 介绍
 山东大学崇新学堂软件实训代码框架
 后端：Springboot 3+ , jdk21, Mybatis, openAPI 3 ,SpringAi 1.1.3
-### My teammate: 
+## My teammate: 
 ### 📚个人笔记本 (B/S)
 
 这是一个基于 Java Spring Boot 开发的现代化在线笔记系统后端服务。项目提供了完善的笔记管理、分类组织、用户鉴权以及 AI 智能辅助功能，为前端（如 React）提供稳定、高效的 RESTful API 接口。
@@ -14,11 +14,11 @@
 - 账号体系：提供基础的账号密码注册与登录，确保访问入口安全。
 - 数字保险箱机制：登录后系统自动下发 安全 Token。
 
-<img src="https://github.com/user-attachments/assets/e2828489-812c-45c3-b6c1-1079a4a72cb4" width="400" height="300" />
+<img src="https://github.com/user-attachments/assets/e2828489-812c-45c3-b6c1-1079a4a72cb4" width="375" height="300" />
 
 #### 📒 模块二：核心笔记管理
 - 笔记创建: 提供简洁易用的富文本编辑器。用户可以输入标题、编写正文，并在创建时一键选择所属的“知识分类”。支持云端实时保存或手动保存。
-<img src="https://github.com/user-attachments/assets/7517efee-3903-4844-adf5-f92f6e995354" width="600" height="350" />
+<img src="https://github.com/user-attachments/assets/7517efee-3903-4844-adf5-f92f6e995354" width="580" height="350" />
   
 - 笔记列表与快捷浏览: 直观展示笔记标题、所属分类、创建时间、最后更新时间，以及悬浮的快捷操作按钮（编辑/收藏/删除）。
 - 笔记动态更新: 随时进入笔记详情页进行二次编辑、修改标题或转移分类。
