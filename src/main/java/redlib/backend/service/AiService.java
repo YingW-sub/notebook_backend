@@ -6,7 +6,6 @@ import java.util.Map;
 /**
  * AI大模型服务接口
  *
- * @author 18622
  * @date 2026-03-20
  */
 public interface AiService {

@@ -9,7 +9,6 @@ import java.util.List;
 /**
  * 笔记视图对象
  *
- * @author 18622
  * @date 2026-03-18
  */
 @Data

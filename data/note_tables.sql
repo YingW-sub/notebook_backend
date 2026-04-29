@@ -4,7 +4,7 @@
 -- =============================================
 SET FOREIGN_KEY_CHECKS=0;
 -- -----------------------------------------------------
--- 表1: category (分类表)
+-- category (分类表)
 -- 用于管理用户的知识分类体系
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS category;
@@ -21,7 +21,7 @@ CREATE TABLE category (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='分类表';
 
 -- -----------------------------------------------------
--- 表2: note (笔记表)
+-- note (笔记表)
 -- 存储用户的笔记内容
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS note;
@@ -49,7 +49,7 @@ CREATE TABLE note (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='笔记表';
 
 -- -----------------------------------------------------
--- 表3: chat_message (AI聊天记录表)
+-- chat_message (AI聊天记录表)
 -- 存储用户与AI助手的连续对话记录
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS chat_message;

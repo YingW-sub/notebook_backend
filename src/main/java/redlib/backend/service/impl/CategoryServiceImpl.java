@@ -17,7 +17,6 @@ import java.util.stream.Collectors;
 /**
  * 分类模块服务实现类
  *
- * @author 18622
  * @date 2026-03-17
  */
 @Service
@@ -28,7 +27,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     /**
      * 添加分类
-     * 从ThreadContextHolder获取当前登录用户的user_id，确保数据隔离
+     * 从ThreadContextHolder获取当前登录用户的user_id
      */
     @Override
     public Long addCategory(CategoryDTO categoryDTO) {

@@ -35,7 +35,9 @@ import redlib.backend.vo.PrivilegeVO;
 
 import java.util.*;
 import java.util.stream.Collectors;
-
+/**
+ * 管理员服务实现类
+ */
 @Service
 public class AdminServiceImpl implements AdminService {
     @Autowired
@@ -188,7 +190,6 @@ public class AdminServiceImpl implements AdminService {
         }
         admin.setUpdatedBy(token.getUserId());
         adminMapper.updateByPrimaryKey(admin);
-        // 去掉删除和重新分配权限的逻辑，用户的权限在创建时就定死了
         // root 修改他人账号后，强制对方重新登录，确保新权限即时生效且会话一致。
         boolean isRootOperator = "root".equalsIgnoreCase(token.getUserCode());
         boolean isSelfUpdate = Objects.equals(token.getUserId(), admin.getId());
@@ -257,7 +258,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     /**
-     * 删除系统用户前，级联清理其云笔记、分类、AI 聊天记录，避免出现「用户已删但笔记仍在」的孤儿数据。
+     * 删除系统用户前，级联清理其云笔记、分类、AI 聊天记录
      */
     private void purgeEndUserDataByAdminIds(List<Integer> ids) {
         if (CollectionUtils.isEmpty(ids)) {

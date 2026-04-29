@@ -5,9 +5,8 @@ import redlib.backend.model.ChatMessage;
 import java.util.List;
 
 /**
- * 聊天服务接口
- *
- * @author 18622
+ * AI 聊天对话
+ * 
  * @date 2026-03-20
  */
 public interface ChatService {

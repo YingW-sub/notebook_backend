@@ -17,13 +17,9 @@ import java.util.*;
 
 /**
  * AI大模型服务实现类
- * <p>
  * 使用 Spring AI 框架，统一调用通义千问、DeepSeek、Kimi 三个模型。
  * 支持按模型标识前缀动态路由（qwen / deepseek / moonshot or kimi），
  * 并通过请求级参数覆盖在同一 ChatModel 上动态切换具体模型版本（如 qwen-max、deepseek-coder）。
- * </p>
- *
- * @author wyyy
  * @date 2026-03-18
  */
 @Service
@@ -141,7 +137,6 @@ public class AiServiceImpl implements AiService {
 
     /**
      * 将外部传入的 model 参数归一化为目标模型名称。
-     * <p>
      * 若为 null 或空字符串，以 {@link #defaultModelName} 兜底；
      * 否则直接返回传入值（保留原始大小写，供 {@link #resolveChatModelByModelName(String)} 做前缀匹配）。
      *
@@ -158,12 +153,7 @@ public class AiServiceImpl implements AiService {
     /**
      * 根据目标模型名称前缀路由到对应的 ChatModel Bean。
      * <p>
-     * 匹配规则（按优先级顺序）：
-     * <ul>
-     *   <li>包含 "qwen"（不区分大小写）&rarr; {@link #qwenChatModel}</li>
-     *   <li>包含 "deepseek" &rarr; {@link #deepseekChatModel}</li>
-     *   <li>包含 "moonshot" 或 "kimi" &rarr; {@link #kimiChatModel}</li>
-     * </ul>
+     * 匹配规则（按优先级顺序）
      *
      * @param modelName 目标模型名称（由 {@link #resolveTargetModel(String)} 产生）
      * @return 对应的 OpenAiChatModel 实例
@@ -186,7 +176,6 @@ public class AiServiceImpl implements AiService {
 
     /**
      * 调用 ChatModel 执行对话。
-     * <p>
      * 通过 {@link OpenAiChatOptions#model(String)} 在请求级别覆盖 ChatModel 出 bean 时配置的默认模型，
      * 从而实现同一 ChatModel Bean 调用不同模型版本。
      *
